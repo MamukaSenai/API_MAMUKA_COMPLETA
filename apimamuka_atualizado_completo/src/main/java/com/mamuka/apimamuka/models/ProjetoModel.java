@@ -38,6 +38,10 @@ public class ProjetoModel implements Serializable {
 
     private String data_conclusao;
 
+    @ManyToOne
+    @JoinColumn(name = "id_usuario")
+    private UsuarioModel usuario;
+
 //    @Temporal(TemporalType.DATE)
 //    private Date data_inicio; // VERFICAR O TIPO DA VARIAVEL
 

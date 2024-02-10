@@ -1,5 +1,6 @@
 package com.mamuka.apimamuka.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,6 +44,10 @@ public class UsuarioModel implements Serializable, UserDetails {
     private String cargo;
     private String email;
     private String senha;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private List<ProjetoModel> projetos;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities(){

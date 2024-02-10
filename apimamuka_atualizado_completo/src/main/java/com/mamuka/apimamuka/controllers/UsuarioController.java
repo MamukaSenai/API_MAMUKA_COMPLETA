@@ -2,6 +2,7 @@ package com.mamuka.apimamuka.controllers;
 
 import com.mamuka.apimamuka.dtos.SenhaDto;
 import com.mamuka.apimamuka.dtos.UsuarioDto;
+import com.mamuka.apimamuka.models.ProjetoModel;
 import com.mamuka.apimamuka.models.UsuarioModel;
 import com.mamuka.apimamuka.repositories.UsuarioRepository;
 import io.swagger.v3.oas.annotations.Operation;
@@ -83,6 +84,35 @@ public class UsuarioController {
 
         return ResponseEntity.status(HttpStatus.OK).body("Senha do usuário atualizada com sucesso!");
     }
+
+    @GetMapping("/{idUsuario}/projeto")
+    public ResponseEntity<Object> pegarProjetos(@PathVariable(value = "idUsuario") UUID id) {
+        Optional<UsuarioModel> usuarioBuscado = usuarioRepository.findById(id);
+
+        if (usuarioBuscado.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
+        }
+
+        UsuarioModel usuario = usuarioBuscado.get();
+        List<ProjetoModel> projetos = usuario.getProjetos();
+
+        return ResponseEntity.status(HttpStatus.OK).body(projetos);
+    }
+
+
+//    @GetMapping("/{idUsuario}/chamado")
+//    public ResponseEntity<Object> listarChamadosDoUsuario(@PathVariable(value = "idUsuario") UUID id) {
+//        Optional<UsuarioModel> usuarioBuscado = usuarioRepository.findById(id);
+//
+//        if (usuarioBuscado.isEmpty()) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
+//        }
+//
+//        UsuarioModel usuario = usuarioBuscado.get();
+//        List<ChamadoModel> chamados = usuario.getChamados();
+//
+//        return ResponseEntity.status(HttpStatus.OK).body(chamados);
+//    }
 
 
     @PutMapping(value =  "/{idUsuario}" /**, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}**/)

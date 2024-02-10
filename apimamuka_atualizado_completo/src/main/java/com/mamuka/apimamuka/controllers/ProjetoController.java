@@ -3,6 +3,8 @@ package com.mamuka.apimamuka.controllers;
 
 import com.mamuka.apimamuka.dtos.ProjetoDto;
 import com.mamuka.apimamuka.models.ProjetoModel;
+import com.mamuka.apimamuka.models.TarefaModel;
+import com.mamuka.apimamuka.models.UsuarioModel;
 import com.mamuka.apimamuka.repositories.ProjetoRepository;
 import com.mamuka.apimamuka.repositories.UsuarioRepository;
 import jakarta.validation.Valid;
@@ -42,8 +44,36 @@ public class ProjetoController {
         return ResponseEntity.status(HttpStatus.OK).body(projetoBuscado.get());
     }
 
+//    @GetMapping("/usuario/{idUsuario}")
+//    public ResponseEntity<List<ProjetoModel>> listarProjetosPorUsuario(@PathVariable(value = "idUsuario") UUID idUsuario) {
+//        Optional<UsuarioModel> usuarioBuscado = usuarioRepository.findById(idUsuario);
+//
+//        if (usuarioBuscado.isEmpty()) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado");
+//        }
+//
+//        List<ProjetoModel> projetosDoUsuario = projetoRepository.findByGestor(usuarioBuscado.get());
+//
+//        return ResponseEntity.status(HttpStatus.OK).body(projetosDoUsuario);
+//    }
 
-//    criando um get para tentar resolver esse erro que aparece na api ao cadastrar projeto no front end:
+    @GetMapping("/projetos/{idUsuario}")
+    public ResponseEntity<List<ProjetoModel>> listarUsuarioProjeto(@PathVariable(value = "idUsuario") UUID idUsuario) {
+        Optional<UsuarioModel> usuarioBuscado = usuarioRepository.findById(idUsuario);
+
+        if (usuarioBuscado.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        List<ProjetoModel> projetoDoUsuario = projetoRepository.findByUsuario(usuarioBuscado.get());
+
+        return ResponseEntity.status(HttpStatus.OK).body(projetoDoUsuario);
+    }
+
+
+
+
+    //    criando um get para tentar resolver esse erro que aparece na api ao cadastrar projeto no front end:
 //    [Field error in object 'projetoDto' on field 'id_usuario': rejected value [user];
 //    codes [typeMismatch.projetoDto.id_usuario,typeMismatch.id_usuario,typeMismatch.java.util.UUID,typeMismatch];
 //    arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [projetoDto.id_usuario,id_usuario]; arguments []; default message [id_usuario]];
