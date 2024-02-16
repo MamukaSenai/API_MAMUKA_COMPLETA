@@ -94,9 +94,9 @@ public class UsuarioController {
         }
 
         UsuarioModel usuario = usuarioBuscado.get();
-        List<ProjetoModel> projetos = usuario.getProjetos();
+//        List<ProjetoModel> projetos = usuario.getProjetos();
 
-        return ResponseEntity.status(HttpStatus.OK).body(projetos);
+        return ResponseEntity.status(HttpStatus.OK).body( usuario.getProjetos() );
     }
 
 

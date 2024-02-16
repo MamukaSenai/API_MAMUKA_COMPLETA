@@ -57,7 +57,7 @@ public class ProjetoController {
 //        return ResponseEntity.status(HttpStatus.OK).body(projetosDoUsuario);
 //    }
 
-    @GetMapping("/projetos/{idUsuario}")
+    @GetMapping("/gestor/{idUsuario}")
     public ResponseEntity<List<ProjetoModel>> listarUsuarioProjeto(@PathVariable(value = "idUsuario") UUID idUsuario) {
         Optional<UsuarioModel> usuarioBuscado = usuarioRepository.findById(idUsuario);
 
@@ -65,9 +65,10 @@ public class ProjetoController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
 
-        List<ProjetoModel> projetoDoUsuario = projetoRepository.findByUsuario(usuarioBuscado.get());
+        UsuarioModel usuario = usuarioBuscado.get();
+//        List<ProjetoModel> projetoDoUsuario = projetoRepository.findByUsuario(usuario);
 
-        return ResponseEntity.status(HttpStatus.OK).body(projetoDoUsuario);
+        return ResponseEntity.status(HttpStatus.OK).body( usuario.getProjetos() );
     }
 
 
@@ -103,7 +104,7 @@ public class ProjetoController {
         var gestor = usuarioRepository.findById(projetoDto.id_gestor());
 
         if (gestor.isPresent()){
-            projetoModel.setGestor(gestor.get());
+            projetoModel.setUsuario(gestor.get());
         } else {
             ResponseEntity.status(HttpStatus.BAD_REQUEST).body("id_gestor não encontrado");
         }
