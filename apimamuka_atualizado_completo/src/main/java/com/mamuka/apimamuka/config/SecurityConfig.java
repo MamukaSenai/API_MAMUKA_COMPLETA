@@ -27,7 +27,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.POST, "/projetos").hasRole("ADMIN")
+//                        .requestMatchers(HttpMethod.POST, "/projetos").hasRole("ADMIN")
                         // .requestMatchers(HttpMethod.POST, "/servicos").hasRole("CLIENTE") // para fazer no servicos somente CLIENTE
                         //.requestMatchers(HttpMethod.POST).authenticated()
 
